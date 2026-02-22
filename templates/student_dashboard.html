@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Arts Day 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .welcome-text {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .logout-btn {
+            float: right;
+            padding: 10px 20px;
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(220, 53, 69, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .dashboard-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .event-card {
+            background: rgba(102, 126, 234, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(102, 126, 234, 0.08);
+        }
+
+        .event-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .event-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .category-onstage {
+            background: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .category-offstage {
+            background: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .registered-event {
+            background: rgba(40, 167, 69, 0.05);
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+
+        .registered-badge {
+            background: rgba(40, 167, 69, 0.2);
+            color: #155724;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .no-events {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px 20px;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .flash-success {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+
+        .flash-error {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dashboard-header {
+                padding: 20px;
+            }
+            
+            .welcome-text {
+                font-size: 1.5rem;
+            }
+            
+            .logout-btn {
+                float: none;
+                display: block;
+                text-align: center;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="dashboard-header">
+            <a href="/logout" class="logout-btn">🚪 Logout</a>
+            <h1 class="welcome-text">Welcome, {{ session.student_name }}! 🎭</h1>
+            <p class="welcome-subtitle">Ready to showcase your talents at Arts Day 2026?</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <!-- Available Events -->
+            <div class="dashboard-section">
+                <h2 class="section-title">
+                    <span>🎪</span>
+                    Available Events
+                </h2>
+                
+                {% if events %}
+                    {% for event in events %}
+                    <div class="event-card">
+                        <div class="event-name">{{ event[1] }}</div>
+                        <div class="event-details">📅 {{ event[6] }}</div>
+                        <div class="event-details">📍 {{ event[7] or 'Venue TBA' }}</div>
+                        <div class="event-details">👥 {{ event[8] }}/{{ event[4] or '∞' }} registered</div>
+                        {% if event[2] %}
+                        <div class="event-details">📝 {{ event[2] }}</div>
+                        {% endif %}
+                        <span class="event-category category-{{ event[3] }}">
+                            {% if event[3] == 'onstage' %}🎭 On-Stage{% else %}🎨 Off-Stage{% endif %}
+                        </span>
+                        <br>
+                        <a href="/student/register-event/{{ event[0] }}" class="register-btn">
+                            ✨ Register Now
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-events">
+                        <p>🎭 No events available for registration at the moment.</p>
+                        <p>Check back soon for exciting opportunities!</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- My Registrations -->
+            <div class="dashboard-section">
+                <h2 class="section-title">
+                    <span>🎯</span>
+                    My Registrations
+                </h2>
+                
+                {% if my_events %}
+                    {% for event in my_events %}
+                    <div class="event-card registered-event">
+                        <div class="event-name">{{ event[0] }}</div>
+                        <div class="event-details">📅 Event Date: {{ event[2] }}</div>
+                        <div class="event-details">📍 Venue: {{ event[3] or 'TBA' }}</div>
+                        <div class="event-details">📝 Registered: {{ event[4] }}</div>
+                        <span class="event-category category-{{ event[1] }}">
+                            {% if event[1] == 'onstage' %}🎭 On-Stage{% else %}🎨 Off-Stage{% endif %}
+                        </span>
+                        <span class="registered-badge">✅ Registered</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-events">
+                        <p>🎪 You haven't registered for any events yet.</p>
+                        <p>Browse available events and join the fun!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth animations
+        document.querySelectorAll('.event-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.animation = `fadeInUp 0.6s ease forwards ${index * 0.1}s`;
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Confirm registration
+        document.querySelectorAll('.register-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (!confirm('Are you sure you want to register for this event?')) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

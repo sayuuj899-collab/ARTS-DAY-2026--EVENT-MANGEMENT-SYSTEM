@@ -1,0 +1,16 @@
+<h2>Arts Day Registration</h2>
+
+<form method="POST">
+    <input name="name" placeholder="Name" required><br><br>
+    <input name="department" placeholder="Department" required><br><br>
+
+    <select name="event_id">
+        {% for event in events %}
+        <option value="{{ event.id }}">
+            {{ event.name }} ({{ event.category }})
+        </option>
+        {% endfor %}
+    </select><br><br>
+
+    <button>Register</button>
+</form>

@@ -1,0 +1,1 @@
+<p>{{ participant.name }} - {{ participant.event.name }}</p><form method='POST' action='/edit-event'><select name='event_id'>{% for e in events %}<option value='{{ e.id }}'>{{ e.name }}</option>{% endfor %}</select><button>Update</button></form>

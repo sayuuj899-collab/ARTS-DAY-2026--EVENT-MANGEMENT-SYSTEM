@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Page background */
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        /* Glass dashboard container */
+        .glass-dashboard {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 20px;
+            padding: 40px 60px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            max-width: 700px;
+            width: 90%;
+        }
+
+        /* Heading */
+        .glass-dashboard h2 {
+            margin-bottom: 35px;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* Button group */
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        /* Glass buttons */
+        .glass-btn {
+            text-decoration: none;
+            color: white;
+            padding: 15px 28px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Hover effect */
+        .glass-btn:hover {
+            transform: translateY(-5px) scale(1.07);
+            background: rgba(255, 255, 255, 0.32);
+        }
+
+        /* Logout / danger button */
+        .glass-btn.danger {
+            background: rgba(255, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 0, 0.45);
+        }
+
+        .glass-btn.danger:hover {
+            background: rgba(255, 0, 0, 0.55);
+        }
+
+        /* Footer text */
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 600px) {
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .glass-dashboard {
+                padding: 30px 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="glass-dashboard">
+        <h2>🎭 Admin Dashboard</h2>
+
+        <div class="button-group">
+            <a href="/admin/create-event" class="glass-btn">
+                <span>➕</span> Create Event
+            </a>
+            <a href="/admin/events" class="glass-btn">
+                <span>📅</span> Manage Events
+            </a>
+            <a href="/admin/onstage" class="glass-btn">
+                <span>🎭</span> On-Stage Participants
+            </a>
+            <a href="/logout" class="glass-btn danger">
+                <span>🚪</span> Logout
+            </a>
+        </div>
+
+        <div class="footer">
+            Arts Day 2026 - College of Engineering Cherthala
+        </div>
+    </div>
+
+</body>
+</html>

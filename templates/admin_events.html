@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Events - Arts Day 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .events-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .event-details {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 10px 0;
+        }
+
+        .category-onstage {
+            background: rgba(255, 193, 7, 0.2);
+            color: #856404;
+        }
+
+        .category-offstage {
+            background: rgba(40, 167, 69, 0.2);
+            color: #155724;
+        }
+
+        .event-stats {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .stat-label {
+            color: #666;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .no-events {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .no-events h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .no-events p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .events-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="events-container">
+        <div class="events-header">
+            <h1 class="header-title">📅 Event Management</h1>
+            <div class="header-actions">
+                <a href="/admin/create-event" class="btn btn-primary">➕ Create Event</a>
+                <a href="/admin/dashboard" class="btn btn-secondary">← Dashboard</a>
+            </div>
+        </div>
+
+        {% if events %}
+            <div class="events-grid">
+                {% for event in events %}
+                <div class="event-card">
+                    <div class="event-name">{{ event[1] }}</div>
+                    
+                    {% if event[2] %}
+                    <div class="event-details">
+                        📝 {{ event[2] }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="event-details">
+                        📅 Event Date: {{ event[6] or 'TBA' }}
+                    </div>
+                    
+                    <div class="event-details">
+                        📍 Venue: {{ event[7] or 'TBA' }}
+                    </div>
+                    
+                    <div class="event-details">
+                        ⏰ Registration Deadline: {{ event[5] or 'TBA' }}
+                    </div>
+                    
+                    <span class="event-category category-{{ event[3] }}">
+                        {% if event[3] == 'onstage' %}🎭 On-Stage{% else %}🎨 Off-Stage{% endif %}
+                    </span>
+                    
+                    <div class="event-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">👥 Registrations:</span>
+                            <span class="stat-value">{{ event[9] or 0 }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">📊 Max Participants:</span>
+                            <span class="stat-value">{{ event[4] or 'Unlimited' }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">📆 Created:</span>
+                            <span class="stat-value">{{ event[10] }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-events">
+                <h3>🎪 No Events Created Yet</h3>
+                <p>Start building your Arts Day program by creating exciting events for students to participate in.</p>
+                <a href="/admin/create-event" class="btn btn-primary">➕ Create Your First Event</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Add entrance animations
+        document.querySelectorAll('.event-card').forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.animation = `fadeInUp 0.6s ease forwards ${index * 0.1}s`;
+        });
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
